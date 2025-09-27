@@ -1,5 +1,5 @@
 
-from ui import *
+from MainWIndow import *
 
 
 def main():
