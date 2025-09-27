@@ -1,15 +1,15 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel
+from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow
 
 
-class Window(QWidget):
-    
-    
+class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
 
-        self.__layout = QVBoxLayout()
+        self.__centralWidget = QWidget()
+        
+        self.__layout = QVBoxLayout(self.__centralWidget)
         self.__line_edit = QLineEdit()
         self.__button = QPushButton("Отправить")
         self.__lable = QLabel("Привет,")
@@ -21,6 +21,7 @@ class Window(QWidget):
     def __initField(self):
         self.setWindowTitle("Window")
         self.resize(1000,500)
+        self.setCentralWidget(self.__centralWidget)
         self.setLayout(self.__layout)
         self.__line_edit.setPlaceholderText("Введите имя: ")
         

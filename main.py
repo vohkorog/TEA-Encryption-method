@@ -4,7 +4,7 @@ from ui import *
 
 def main():
     app = QApplication(sys.argv)
-    window = Window()
+    window = MainWindow()
     window.show()
     sys.exit(app.exec())
 
