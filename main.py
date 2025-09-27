@@ -1,21 +1,13 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton
+
+from ui import *
 
 
-class Window(QWidget):
-    
-    
-    def __init__(self):
-        super().__init__()
-        self.__initField()
+def main():
+    app = QApplication(sys.argv)
+    window = Window()
+    window.show()
+    sys.exit(app.exec_())
 
-    def __initField(self):
-        self.setWindowTitle("Window")
-        self.resize(1000,500)
 
-    
-app = QApplication(sys.argv)
-window = Window()
-window.show()
-sys.exit(app.exec_())
-    
+if __name__ == "__main__":
+    main()
