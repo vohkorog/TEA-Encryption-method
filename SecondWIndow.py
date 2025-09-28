@@ -3,27 +3,36 @@ from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPush
 
 class SecondWindow(QDialog):
     def __init__(self, parent=None):
-        super().__init__(parent)
+        super().__init__(parent)      
+
+        self.__layout = QVBoxLayout()
+        self.__label = QLabel('Введите текст:')        
+        self.__text_input = QLineEdit()
+        self.__buttonOK = QPushButton("OK")
+        self.__buttonCancel = QPushButton("Cancel")
+        
+       # buttons.accepted.connect(self.accept)
+       # buttons.rejected.connect(self.reject)
+
+        self.__initField()
+        self.__ui()
+        self.__event()
+
+
+    def __initField(self):
         self.setWindowTitle('Ввод данных')
-        self.setGeometry(250, 250, 300, 150)
+        self.resize(300,150)
+        self.setLayout(self.__layout)
+
+
+    def __ui(self):
+        self.__layout.addWidget(self.__label)
+        self.__layout.addWidget(self.__text_input)
+        self.__layout.addWidget(self.__buttonOK)
+        self.__layout.addWidget(self.__buttonCancel)
         
-        layout = QVBoxLayout()
-        
-        self.label = QLabel('Введите текст:')
-        layout.addWidget(self.label)
-        
-        self.text_input = QLineEdit()
-        layout.addWidget(self.text_input)
-        
-        # Кнопки OK и Cancel
-        buttons = QDialogButtonBox(
-            QDialogButtonBox.StandardButton.Ok | 
-            QDialogButtonBox.StandardButton.Cancel
-        )
-        buttons.accepted.connect(self.accept)
-        buttons.rejected.connect(self.reject)
-        layout.addWidget(buttons)
-        self.setLayout(layout)
-    
+    def __event(self):
+        self.__buttonCancel.clicked.connect(self.close)
+
     def get_text(self):
         return self.text_input.text()

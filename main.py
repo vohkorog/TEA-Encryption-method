@@ -1,6 +1,4 @@
-
 from MainWIndow import *
-
 
 def main():
     app = QApplication(sys.argv)
