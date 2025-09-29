@@ -1,87 +1,63 @@
+from PyQt6.QtWidgets import (QMainWindow, QApplication, QVBoxLayout, 
+                             QWidget, QLineEdit, QPushButton, QLabel, QDialog, QHBoxLayout)
+from PyQt6.QtCore import pyqtSignal
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow, QDialog
-from SecondWIndow import *
 
 class MainWindow(QMainWindow):
-
+    
     def __init__(self):
         super().__init__()
-        
-        # Создаем центральный виджет
-        self.__centralWidget = QWidget()
-        
-        # Создаем layout для центрального виджета
-        self.__layout = QVBoxLayout(self.__centralWidget)  # Layout устанавливается здесь
-        
-        # Создаем виджеты
-        self.__line_edit = QLineEdit()
-        self.__button = QPushButton("Отправить")
-        self.__New_window_button = QPushButton("Открыть новое окно")
-        self.__lable = QLabel("Привет,")
 
-        # Инициализация
-        self.__initField()
-        self.__ui()
-        self.__event()
+        self.setWindowTitle("win")
+        self.resize(400,300)
+        self.centralWidget = QWidget()
 
-    def __initField(self):
-        self.setWindowTitle("Window")
-        self.resize(1000, 500)
-        
-        # Устанавливаем центральный виджет (layout уже установлен в конструкторе)
-        self.setCentralWidget(self.__centralWidget)
-        
-        self.__line_edit.setPlaceholderText("Введите имя: ")
+        self.mylayout = QVBoxLayout(self.centralWidget)
+        self.setCentralWidget(self.centralWidget)
+        self.line_edit = QLineEdit()
+        self.New_window_button = QPushButton("Открыть новое окно")
 
-    def __ui(self):
-        # Добавляем виджеты в layout
-        self.__layout.addWidget(self.__line_edit)
-        self.__layout.addWidget(self.__lable)
-        self.__layout.addWidget(self.__button)
-        self.__layout.addWidget(self.__New_window_button)
-        
-        # Применяем стили ПОСЛЕ добавления всех виджетов
-        self.__styleField()
+        self.mylayout.addWidget(self.line_edit)
+        self.mylayout.addWidget(self.New_window_button)
 
-    def __event(self):
-        self.__button.clicked.connect(self.__onClickButton)
-        self.__New_window_button.clicked.connect(self.__onClickNewWindowButton)
+        self.New_window_button.clicked.connect(self.onClick)
 
-    def __onClickButton(self):
-        self.__lable.setText(f"Привет, {self.__line_edit.text()}")
-
-    def __onClickNewWindowButton(self):
-        dialog = SecondWindow(self)
-        if dialog.exec() == QDialog.DialogCode.Accepted:
-            pass
-
-    def __styleField(self):
-        # Убедимся, что метка имеет достаточный размер для отображения фона
-        self.__lable.setMinimumHeight(40)
-        
-        # Используем более конкретный стиль
-        self.__lable.setStyleSheet("""
-            QLabel {
-                color: red; 
-                background-color: yellow; 
-                border: 2px solid black;
-                padding: 10px;
-                font-weight: bold;
-            }
-        """)
-        
-        # Принудительно обновляем отображение
-        self.__lable.update()
+    def onClick(self):
+        secondWin = SecWin(self)
+        secondWin.exec()
 
 
-# Добавьте это для тестирования, если SecondWindow недоступен
-if __name__ == "__main__":
+
+
+
+
+
+class SecWin(QDialog):
+    def __init__(self, parent = None):
+        super().__init__(parent)
+
+        self.mylayout = QVBoxLayout()
+        self.text_input = QLineEdit()
+        self.buttonOK = QPushButton("OK")
+        self.buttonCancel = QPushButton("Cancel")
+
+        self.setWindowTitle('Ввод данных')
+        self.resize(300,150)
+        self.setLayout(self.mylayout)
+
+        self.mylayout.addWidget(self.text_input)
+        self.mylayout.addWidget(self.buttonOK)
+        self.mylayout.addWidget(self.buttonCancel)
+
+        self.buttonCancel.clicked.connect(self.close)
+
+
+def main():
     app = QApplication(sys.argv)
-    
-    # Установим стиль приложения для лучшей совместимости
-    app.setStyle("Fusion")
-    
     window = MainWindow()
     window.show()
-    
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

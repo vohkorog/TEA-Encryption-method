@@ -1,7 +1,11 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow, QDialog, QDialogButtonBox
+from PyQt6.QtCore import pyqtSignal
 
 class SecondWindow(QDialog):
+
+    signalSecWin = pyqtSignal(int)  # Сигнал для получения числа
+
     def __init__(self, parent=None):
         super().__init__(parent)      
 
@@ -30,3 +34,4 @@ class SecondWindow(QDialog):
         
     def __event(self):
         self.__buttonCancel.clicked.connect(self.close)
+     

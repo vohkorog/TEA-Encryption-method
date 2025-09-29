@@ -25,3 +25,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Jupyter file and some file
+downloadLib.ipynb
+test.py

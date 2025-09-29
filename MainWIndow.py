@@ -1,8 +1,12 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow, QDialog
 from SecondWIndow import SecondWindow
+from PyQt6.QtCore import pyqtSignal
+
 
 class MainWindow(QMainWindow):
+
+    signalMainWindow = pyqtSignal(int)  # Сигнал для получения числа
 
     def __init__(self):
         super().__init__()
@@ -41,8 +45,7 @@ class MainWindow(QMainWindow):
 
     def __onClickNewWindowButton(self):
         dialog = SecondWindow(self)
-        if dialog.exec() == QDialog.DialogCode.Accepted:
-            pass
+        dialog.exec()
 
     def __styleField(self):
         self.__lable.setStyleSheet("""
@@ -57,3 +60,6 @@ class MainWindow(QMainWindow):
                 border-radius: 15px; 
             }
         """)
+
+    def TakeTextLabel(self):
+        return self.__lable.text()
