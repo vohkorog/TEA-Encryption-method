@@ -4,7 +4,7 @@ from PyQt6.QtCore import pyqtSignal
 
 class SecondWindow(QDialog):
 
-    signalSecWin = pyqtSignal(int)  # Сигнал для получения числа
+    signal = pyqtSignal(object)  # Сигнал для получения числа
 
     def __init__(self, parent=None):
         super().__init__(parent)      
@@ -34,4 +34,10 @@ class SecondWindow(QDialog):
         
     def __event(self):
         self.__buttonCancel.clicked.connect(self.close)
+        self.__buttonOK.clicked.connect(self.send_text)
+
+    def send_text(self):
+        text = self.__text_input.text()
+        self.signal.emit(text)
+        self.close()
      

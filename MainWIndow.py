@@ -6,11 +6,11 @@ from PyQt6.QtCore import pyqtSignal
 
 class MainWindow(QMainWindow):
 
-    signalMainWindow = pyqtSignal(int)  # Сигнал для получения числа
-
+    
     def __init__(self):
         super().__init__()
-        
+
+        self.name = ""    
         self.__centralWidget = QWidget()
         
         self.__layout = QVBoxLayout(self.__centralWidget)
@@ -41,10 +41,13 @@ class MainWindow(QMainWindow):
         self.__New_window_button.clicked.connect(self.__onClickNewWindowButton)
 
     def __onClickButton(self):
-        self.__lable.setText(f"Привет, {self.__line_edit.text()}")
+    
+        self.name = self.__line_edit.text()
+        self.__lable.setText(f"Привет, {self.name}")
 
     def __onClickNewWindowButton(self):
         dialog = SecondWindow(self)
+        dialog.signal.connect(self.setText)
         dialog.exec()
 
     def __styleField(self):
@@ -61,5 +64,10 @@ class MainWindow(QMainWindow):
             }
         """)
 
-    def TakeTextLabel(self):
-        return self.__lable.text()
+    def setText(self, number):
+        
+        oldtext = self.__lable.text()
+        if oldtext == None:
+            oldtext = ""
+        self.__lable.setText(f"Привет, {oldtext}, мне {str(number)} лет")
+        oldtext = f"Привет, {self.name}"
