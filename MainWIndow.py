@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow
+from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow, QDialog
 from SecondWIndow import SecondWindow
 
 class MainWindow(QMainWindow):
@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
 
     def __initField(self):
         self.setWindowTitle("Window")
-        self.resize(1000,500)
+        self.resize(1000,200)
         self.setCentralWidget(self.__centralWidget)
         self.__line_edit.setPlaceholderText("Введите имя: ")
 
@@ -45,13 +45,15 @@ class MainWindow(QMainWindow):
             pass
 
     def __styleField(self):
-        self.__lable.setMinimumHeight(40)
         self.__lable.setStyleSheet("""
             QLabel {
-                color: red; 
-                background-color: yellow; 
+                color: black; 
+                background-color: #d6d0d0; 
                 border: 2px solid black;
                 padding: 10px;
                 font-weight: bold;
+                max-width:1000px ;
+                max-height:30px;
+                border-radius: 15px; 
             }
         """)
