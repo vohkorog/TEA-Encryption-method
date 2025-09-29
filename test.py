@@ -24,8 +24,11 @@ class MainWindow(QMainWindow):
 
     def onClick(self):
         secondWin = SecWin(self)
+        secondWin.dialog_signal.connect(self.on_number_received)
         secondWin.exec()
 
+    def on_number_received(self, number):
+        self.line_edit.setText(str(number))
 
 
 
@@ -33,6 +36,9 @@ class MainWindow(QMainWindow):
 
 
 class SecWin(QDialog):
+
+    dialog_signal = pyqtSignal(object)
+
     def __init__(self, parent = None):
         super().__init__(parent)
 
@@ -50,6 +56,15 @@ class SecWin(QDialog):
         self.mylayout.addWidget(self.buttonCancel)
 
         self.buttonCancel.clicked.connect(self.close)
+        self.buttonOK.clicked.connect(self.send_number)
+
+    def send_number(self):
+        
+        number = self.text_input.text()
+            # Отправляем сигнал с числом
+        self.dialog_signal.emit(number)
+        self.close()
+        
 
 
 def main():
