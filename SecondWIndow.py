@@ -10,9 +10,6 @@ class SecondWindow(QDialog):
         self.__text_input = QLineEdit()
         self.__buttonOK = QPushButton("OK")
         self.__buttonCancel = QPushButton("Cancel")
-        
-       # buttons.accepted.connect(self.accept)
-       # buttons.rejected.connect(self.reject)
 
         self.__initField()
         self.__ui()
@@ -33,6 +30,3 @@ class SecondWindow(QDialog):
         
     def __event(self):
         self.__buttonCancel.clicked.connect(self.close)
-
-    def get_text(self):
-        return self.text_input.text()
