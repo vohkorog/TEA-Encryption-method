@@ -1,78 +1,41 @@
-from PyQt6.QtWidgets import (QMainWindow, QApplication, QVBoxLayout, 
-                             QWidget, QLineEdit, QPushButton, QLabel, QDialog, QHBoxLayout)
-from PyQt6.QtCore import pyqtSignal
-import sys
+from TEACipher import *
 
-class MainWindow(QMainWindow):
+
+# Демонстрация работы TEA
+def demo_tea():
+    # Ключ 16 байт
+    key = b'16bytekey1234567'
     
-    def __init__(self):
-        super().__init__()
+    # Создаем шифратор
+    tea = TEACipher(key)
+    
+    # Текст для шифрования
+    plaintext = b'Hacking the Xbox: an introduction to reverse engineering'
+    
+    print("=== Демонстрация TEA ===")
+    print(f"Исходный текст: {plaintext}")
+    print(f"Длина исходного: {len(plaintext)} байт")
+    
+    # Шифрование ECB
+    encrypted = tea.encrypt_ecb(plaintext)
+    print(f"\nЗашифрованный (ECB): {encrypted.hex()}")
+    print(f"Длина шифртекста: {len(encrypted)} байт")
+    
+    # Дешифрование ECB
+    decrypted = tea.decrypt_ecb(encrypted)
+    print(f"Расшифрованный (ECB): {decrypted}")
+    
+    # Демонстрация CBC режима
+    print("\n=== Режим CBC ===")
+    tea_adv = TEACipherAdvanced(key)
+    iv = b'initvec!'  # 8 байт
+    
+    encrypted_cbc = tea_adv.encrypt_cbc(plaintext, iv)
+    print(f"Зашифрованный (CBC): {encrypted_cbc.hex()}")
+    
+    decrypted_cbc = tea_adv.decrypt_cbc(encrypted_cbc, iv)
+    print(f"Расшифрованный (CBC): {decrypted_cbc}")
 
-        self.setWindowTitle("win")
-        self.resize(400,300)
-        self.centralWidget = QWidget()
-
-        self.mylayout = QVBoxLayout(self.centralWidget)
-        self.setCentralWidget(self.centralWidget)
-        self.line_edit = QLineEdit()
-        self.New_window_button = QPushButton("Открыть новое окно")
-
-        self.mylayout.addWidget(self.line_edit)
-        self.mylayout.addWidget(self.New_window_button)
-
-        self.New_window_button.clicked.connect(self.onClick)
-
-    def onClick(self):
-        secondWin = SecWin(self)
-        secondWin.dialog_signal.connect(self.on_number_received)
-        secondWin.exec()
-
-    def on_number_received(self, number):
-        self.line_edit.setText(str(number))
-
-
-
-
-
-
-class SecWin(QDialog):
-
-    dialog_signal = pyqtSignal(object)
-
-    def __init__(self, parent = None):
-        super().__init__(parent)
-
-        self.mylayout = QVBoxLayout()
-        self.text_input = QLineEdit()
-        self.buttonOK = QPushButton("OK")
-        self.buttonCancel = QPushButton("Cancel")
-
-        self.setWindowTitle('Ввод данных')
-        self.resize(300,150)
-        self.setLayout(self.mylayout)
-
-        self.mylayout.addWidget(self.text_input)
-        self.mylayout.addWidget(self.buttonOK)
-        self.mylayout.addWidget(self.buttonCancel)
-
-        self.buttonCancel.clicked.connect(self.close)
-        self.buttonOK.clicked.connect(self.send_number)
-
-    def send_number(self):
-        
-        number = self.text_input.text()
-            # Отправляем сигнал с числом
-        self.dialog_signal.emit(number)
-        self.close()
-        
-
-
-def main():
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
-
-
+# Запуск демо
 if __name__ == "__main__":
-    main()
+    demo_tea()
