@@ -19,10 +19,7 @@ class MainWindow(QMainWindow):
         self.__layout = QVBoxLayout(self.__centralWidget)
         self.__line_edit = QLineEdit()
         self.__button = QPushButton("Отправить")
-        self.__New_window_button = QPushButton("Открыть новое окно")
-        self.__lable = QLabel()
-
-        
+        self.__lable = QLabel()       
 
         self.__initField()
         self.__ui()
@@ -51,10 +48,11 @@ class MainWindow(QMainWindow):
         self.__lable.setText("=== Демонстрация TEA ===\n"
                              f"Исходный текст: {self.__plaintext}\n"
                              f"Длина исходного текста: {len(self.__plaintext)} байт\n")
-        
-        #self.encrypted = self.tea.encrypt_ecb(self.__plaintext)
-        #self.decrypter = self.tea.decrypt_ecb(self.encrypted)
 
+        __plaintext_bytes = self.__plaintext.encode('utf-8')
+        
+        self.encrypted = self.tea.encrypt_ecb(__plaintext_bytes)
+        #self.decrypter = self.tea.decrypt_ecb(self.encrypted)
 
 
         

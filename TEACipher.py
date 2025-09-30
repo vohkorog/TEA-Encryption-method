@@ -79,7 +79,8 @@ class TEACipher:
             encrypted_block = self._encrypt_block(block)
             encrypted_blocks.append(encrypted_block)
         
-        return b''.join(encrypted_blocks)
+        encrypted_blocks_str = str(b''.join(encrypted_blocks))
+        return encrypted_blocks_str
     
     def decrypt_ecb(self, ciphertext: bytes) -> bytes:
         """Дешифрование в режиме ECB"""
