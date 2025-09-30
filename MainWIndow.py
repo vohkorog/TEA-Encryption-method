@@ -17,7 +17,7 @@ class MainWindow(QMainWindow):
         self.__line_edit = QLineEdit()
         self.__button = QPushButton("Отправить")
         self.__New_window_button = QPushButton("Открыть новое окно")
-        self.__lable = QLabel("Привет,")
+        self.__lable = QLabel()
 
         self.__initField()
         self.__ui()
@@ -41,9 +41,10 @@ class MainWindow(QMainWindow):
         self.__New_window_button.clicked.connect(self.__onClickNewWindowButton)
 
     def __onClickButton(self):
-    
+        self.hello = "Привет,"
+        self.__lable.setText("")
         self.name = self.__line_edit.text()
-        self.__lable.setText(f"Привет, {self.name}")
+        self.__lable.setText(f"{self.hello} {self.name}")
 
     def __onClickNewWindowButton(self):
         dialog = SecondWindow(self)
@@ -65,9 +66,7 @@ class MainWindow(QMainWindow):
         """)
 
     def setText(self, number):
+
+        self.__lable.setText("")
+        self.__lable.setText(f"Привет, {self.name}, мне {str(number)} лет")
         
-        oldtext = self.__lable.text()
-        if oldtext == None:
-            oldtext = ""
-        self.__lable.setText(f"Привет, {oldtext}, мне {str(number)} лет")
-        oldtext = f"Привет, {self.name}"
