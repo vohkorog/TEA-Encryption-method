@@ -1,7 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow, QDialog, QScrollArea
-from SecondWIndow import SecondWindow
-from PyQt6.QtCore import pyqtSignal, Qt
+from PyQt6.QtWidgets import QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow
 from TEACipher import *
 
 class MainWindow(QMainWindow):
@@ -36,12 +34,10 @@ class MainWindow(QMainWindow):
         self.__layout.addWidget(self.__line_edit)
         self.__layout.addWidget(self.__lable)
         self.__layout.addWidget(self.__button)
-        #self.__layout.addWidget(self.__New_window_button)
         self.__styleField()
 
     def __event(self):
         self.__button.clicked.connect(self.__onClickButton)
-        #self.__New_window_button.clicked.connect(self.__onClickNewWindowButton)
 
     def __onClickButton(self):
         self.__plaintext = self.__line_edit.text()
@@ -53,14 +49,6 @@ class MainWindow(QMainWindow):
         
         self.encrypted = self.tea.encrypt_ecb(__plaintext_bytes)
         #self.decrypter = self.tea.decrypt_ecb(self.encrypted)
-
-
-        
-
-    def __onClickNewWindowButton(self):
-        dialog = SecondWindow(self)
-        dialog.signal.connect(self.setText)
-        dialog.exec()
 
     def __styleField(self):
         self.__lable.setStyleSheet("""
@@ -75,43 +63,3 @@ class MainWindow(QMainWindow):
                 border-radius: 15px; 
             }
         """)
-
-    def setText(self, number):
-
-        self.__lable.setText("")
-        self.__lable.setText(f"Привет, {self.name}, мне {str(number)} лет")
-
-    def demo_tea():
-    # Ключ 16 байт
-    #key = b'16bytekey1234567'
-    
-    # Создаем шифратор
-    #tea = TEACipher(key)
-    
-    # Текст для шифрования
-    #plaintext = b'Hacking the Xbox: an introduction to reverse engineering'
-    
-        print("=== Демонстрация TEA ===")
-        print(f"Исходный текст: {plaintext}")
-        print(f"Длина исходного: {len(plaintext)} байт")
-        
-        # Шифрование ECB
-        encrypted = tea.encrypt_ecb(plaintext)
-        print(f"\nЗашифрованный (ECB): {encrypted.hex()}")
-        print(f"Длина шифртекста: {len(encrypted)} байт")
-        
-        # Дешифрование ECB
-        decrypted = tea.decrypt_ecb(encrypted)
-        print(f"Расшифрованный (ECB): {decrypted}")
-        
-        # Демонстрация CBC режима
-        print("\n=== Режим CBC ===")
-        tea_adv = TEACipherAdvanced(key)
-        iv = b'initvec!'  # 8 байт
-        
-        encrypted_cbc = tea_adv.encrypt_cbc(plaintext, iv)
-        print(f"Зашифрованный (CBC): {encrypted_cbc.hex()}")
-        
-        decrypted_cbc = tea_adv.decrypt_cbc(encrypted_cbc, iv)
-        print(f"Расшифрованный (CBC): {decrypted_cbc}")
-        
