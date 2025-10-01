@@ -8,7 +8,7 @@ class MainWindow(QMainWindow):
     
     def __init__(self):
         super().__init__()
-
+        
         self.__plaintext = ""
         #self.key = b'16bytekey1234567'
         #self.tea = TEACipher(self.key)
@@ -56,8 +56,6 @@ class MainWindow(QMainWindow):
         )
     
     
-    
-    
     def __ui(self):
         self.__mainLayout.addWidget(self.__line_edit)
         self.__mainLayout.addWidget(self.__key_line_edit)
@@ -81,22 +79,28 @@ class MainWindow(QMainWindow):
 
         self.key = self.__key_line_edit.text()
         __keytext_bytes = self.key.encode('utf-8')
-        self.tea = TEACipher(__keytext_bytes)
+        tea = TEACipher(__keytext_bytes)
         
         self.__plaintext = self.__line_edit.text()
         __plaintext_bytes = self.__plaintext.encode('utf-8')
-        self.encrypted = self.tea.encrypt_ecb(__plaintext_bytes)
+        encrypted = tea.encrypt_ecb(__plaintext_bytes)
         self.__text_left.setText("=== Демонстрация TEA ===\n"
                              f"Исходный текст: {self.__plaintext}\n"
                              f"Длина исходного текста: {len(self.__plaintext)} байт\n"
-                             f"Зашифрованный (ECB): {self.encrypted.hex()}\n"
-                             f"Длинна шифртекста: {len(self.encrypted)} байт\n")
+                             f"Зашифрованный (ECB): {encrypted.hex()}\n"
+                             f"Длинна шифртекста: {len(encrypted)} байт\n")
 
 
     def __onClickButtonDecrypted(self):
 
-        decrypted = self.tea.decrypt_ecb(self.encrypted)
-        self.__text_right.setText(f"Расшифрованный (ECB): {decrypted}\n")
+        self.key = self.__key_line_edit.text()
+        __keytext_bytes = self.key.encode('utf-8')
+        tea = TEACipher(__keytext_bytes)
+
+        __plaintext = self.__line_edit.text()
+        result = tea.decrypt_ecb_hex(__plaintext)
+
+        self.__text_right.setText(f"Расшифрованный (ECB): {result}\n")
 
 
 

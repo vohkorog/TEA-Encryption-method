@@ -96,6 +96,33 @@ class TEACipher:
         # Убираем дополнение
         padded_result = b''.join(decrypted_blocks)
         return self._unpad_data(padded_result)
+    
+    def decrypt_ecb_hex(self, hex_string: str) -> str:
+        """Дешифрует hex-строку и возвращает текст"""
+        # Убираем пробелы и преобразуем в нижний регистр
+        hex_string = hex_string.strip().lower()
+        
+        # Преобразуем hex в байты
+        try:
+            ciphertext_bytes = bytes.fromhex(hex_string)
+        except ValueError as e:
+            raise ValueError(f"Некорректная hex-строка: {e}")
+        
+        # Дешифруем
+        decrypted_bytes = self.decrypt_ecb(ciphertext_bytes)
+        
+        # Преобразуем в строку
+        try:
+            return decrypted_bytes.decode('utf-8')
+        except UnicodeDecodeError:
+            # Если не UTF-8, возвращаем как есть (байты)
+            return f"Байты: {decrypted_bytes}"
+    
+    def encrypt_ecb_to_hex(self, plaintext: str) -> str:
+        """Шифрует текст и возвращает hex-строку"""
+        plaintext_bytes = plaintext.encode('utf-8')
+        encrypted_bytes = self.encrypt_ecb(plaintext_bytes)
+        return encrypted_bytes.hex()
 
 # Дополнительные режимы работы
 class TEACipherAdvanced(TEACipher):
