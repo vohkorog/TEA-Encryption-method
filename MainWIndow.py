@@ -74,10 +74,10 @@ class MainWindow(QMainWindow):
         self.__styleField()
 
     def __event(self):
-        self.__buttonEncrypted.clicked.connect(self.__onClickButton)
-        
+        self.__buttonEncrypted.clicked.connect(self.__onClickButtonEncrypted)
+        self.__buttonDecrypted.clicked.connect(self.__onClickButtonDecrypted)
 
-    def __onClickButton(self):
+    def __onClickButtonEncrypted(self):
 
         self.key = self.__key_line_edit.text()
         __keytext_bytes = self.key.encode('utf-8')
@@ -91,6 +91,13 @@ class MainWindow(QMainWindow):
                              f"Длина исходного текста: {len(self.__plaintext)} байт\n"
                              f"Зашифрованный (ECB): {self.encrypted.hex()}\n"
                              f"Длинна шифртекста: {len(self.encrypted)} байт\n")
+
+
+    def __onClickButtonDecrypted(self):
+
+        decrypted = self.tea.decrypt_ecb(self.encrypted)
+        self.__text_right.setText(f"Расшифрованный (ECB): {decrypted}\n")
+
 
 
     def __styleField(self):
