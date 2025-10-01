@@ -1,6 +1,6 @@
-import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QTextEdit, QLineEdit, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QMainWindow, QDialog, QScrollArea
-from PyQt6.QtCore import pyqtSignal, Qt
+
+from PyQt6.QtWidgets import QWidget, QTextEdit, QLineEdit, QHBoxLayout, QVBoxLayout, QPushButton, QMainWindow
+from PyQt6.QtCore import Qt
 from TEACipher import *
 
 class MainWindow(QMainWindow):
@@ -10,8 +10,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         
         self.__plaintext = ""
-        #self.key = b'16bytekey1234567'
-        #self.tea = TEACipher(self.key)
 
         self.__centralWidget = QWidget()
         self.__mainLayout = QVBoxLayout(self.__centralWidget)

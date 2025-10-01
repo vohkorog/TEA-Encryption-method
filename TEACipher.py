@@ -1,5 +1,4 @@
 import struct
-from typing import List
 
 class TEACipher:
     def __init__(self, key: bytes):
