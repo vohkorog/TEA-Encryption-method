@@ -1,5 +1,6 @@
 import sys
-from PyQt6.QtWidgets import QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow
+from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow, QDialog, QScrollArea
+from PyQt6.QtCore import pyqtSignal, Qt
 from TEACipher import *
 
 class MainWindow(QMainWindow):
@@ -8,7 +9,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.name = ""  
         self.key = b'16bytekey1234567'
         self.tea = TEACipher(self.key)
 
@@ -41,14 +41,14 @@ class MainWindow(QMainWindow):
 
     def __onClickButton(self):
         self.__plaintext = self.__line_edit.text()
+        __plaintext_bytes = self.__plaintext.encode('utf-8')
+        self.encrypted = self.tea.encrypt_ecb(__plaintext_bytes)
         self.__lable.setText("=== Демонстрация TEA ===\n"
                              f"Исходный текст: {self.__plaintext}\n"
-                             f"Длина исходного текста: {len(self.__plaintext)} байт\n")
+                             f"Длина исходного текста: {len(self.__plaintext)} байт\n"
+                             f"Зашифрованный (ECB): {self.encrypted.hex()}\n"
+                             f"Длинна шифртекста: {len(self.encrypted)} байт\n")
 
-        __plaintext_bytes = self.__plaintext.encode('utf-8')
-        
-        self.encrypted = self.tea.encrypt_ecb(__plaintext_bytes)
-        #self.decrypter = self.tea.decrypt_ecb(self.encrypted)
 
     def __styleField(self):
         self.__lable.setStyleSheet("""
@@ -59,7 +59,12 @@ class MainWindow(QMainWindow):
                 padding: 10px;
                 font-weight: bold;
                 max-width:1000px ;
-                max-height:100px;
+                max-height:300px;
                 border-radius: 15px; 
             }
         """)
+
+    def setText(self, number):
+
+        self.__lable.setText("")
+        self.__lable.setText(f"Привет, {self.name}, мне {str(number)} лет")

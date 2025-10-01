@@ -1,4 +1,5 @@
 from MainWIndow import *
+from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QMainWindow, QDialog, QScrollArea
 
 def main():
     app = QApplication(sys.argv)
