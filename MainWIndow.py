@@ -1,5 +1,5 @@
 
-from PyQt6.QtWidgets import QWidget, QTextEdit, QLineEdit, QHBoxLayout, QVBoxLayout, QPushButton, QMainWindow
+from PyQt6.QtWidgets import QWidget, QTextEdit, QLineEdit, QHBoxLayout, QVBoxLayout, QPushButton, QMainWindow, QLabel
 from PyQt6.QtCore import Qt
 from TEACipher import *
 
@@ -16,7 +16,8 @@ class MainWindow(QMainWindow):
         self.__textLayout = QHBoxLayout()
         self.__buttonLayout = QHBoxLayout()
         
-
+    
+        self.__count_word = QLabel()
         self.__line_edit = QLineEdit()
         self.__key_line_edit = QLineEdit()
         self.__buttonEncrypted = QPushButton("Зашифровать")
@@ -36,7 +37,8 @@ class MainWindow(QMainWindow):
         
         self.__line_edit.setPlaceholderText("Введите сообщение: ")
         self.__key_line_edit.setPlaceholderText("Введите ключ: ")
-        
+        self.__key_line_edit.textChanged.connect(self.update_counter)
+
         self.__text_left.setReadOnly(True)
         self.__text_left.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.__text_left.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
@@ -57,6 +59,7 @@ class MainWindow(QMainWindow):
     def __ui(self):
         self.__mainLayout.addWidget(self.__line_edit)
         self.__mainLayout.addWidget(self.__key_line_edit)
+        self.__mainLayout.addWidget(self.__count_word)
 
         self.__textLayout.addWidget(self.__text_left)
         self.__textLayout.addWidget(self.__text_right)
@@ -66,8 +69,6 @@ class MainWindow(QMainWindow):
 
         self.__mainLayout.addLayout(self.__textLayout)
         self.__mainLayout.addLayout(self.__buttonLayout)
-
-        self.__styleField()
 
     def __event(self):
         self.__buttonEncrypted.clicked.connect(self.__onClickButtonEncrypted)
@@ -100,19 +101,12 @@ class MainWindow(QMainWindow):
 
         self.__text_right.setText(f"Расшифрованный (ECB): {result}\n")
 
+    def update_counter(self):
+        text = self.__key_line_edit.text()
+        count = len(text)
+        self.__count_word.setText(f'Символов в ключе: {count}')
 
 
-    def __styleField(self):
-     #   self.__lable.setStyleSheet("""
-      #      QLabel {
-       #         color: black; 
-        #        background-color: #d6d0d0; 
-         #       border: 2px solid black;
-          #      padding: 10px;
-           #     font-weight: bold;
-            #    max-width:1000px ;
-             #   max-height:300px;
-              #  border-radius: 15px; 
-           # }
-       # """)
-       pass
+
+
+    
