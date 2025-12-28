@@ -2,10 +2,6 @@ import struct
 
 class TEACipher:
     def __init__(self, key: bytes):
-        """
-        Инициализация шифра TEA
-        key: 16 байт (128 бит)
-        """
         if len(key) != 16:
             raise ValueError("Ключ должен быть 16 байт (128 бит)")
         
@@ -17,7 +13,7 @@ class TEACipher:
         self.delta = 0x9E3779B9
     
     def _encrypt_block(self, block: bytes) -> bytes:
-        """Шифрование одного блока 64 бит (8 байт)"""
+        #Шифрование одного блока 64 бит (8 байт)
         if len(block) != 8:
             raise ValueError("Блок должен быть 8 байт")
         
@@ -35,7 +31,7 @@ class TEACipher:
         return struct.pack('>2I', v0, v1)
     
     def _decrypt_block(self, block: bytes) -> bytes:
-        """Дешифрование одного блока 64 бит (8 байт)"""
+        #Дешифрование одного блока 64 бит (8 байт)
         if len(block) != 8:
             raise ValueError("Блок должен быть 8 байт")
         
@@ -51,13 +47,13 @@ class TEACipher:
         return struct.pack('>2I', v0, v1)
     
     def _pad_data(self, data: bytes) -> bytes:
-        """Дополнение данных до размера кратного 8 байтам"""
+        #Дополнение данных до размера кратного 8 байтам
         pad_len = 8 - (len(data) % 8)
         padding = bytes([pad_len] * pad_len)
         return data + padding
     
     def _unpad_data(self, data: bytes) -> bytes:
-        """Удаление дополнения"""
+        #Удаление дополнения
         pad_len = data[-1]
         if pad_len > 8:
             raise ValueError("Некорректное дополнение")
@@ -117,8 +113,3 @@ class TEACipher:
             # Если не UTF-8, возвращаем как есть (байты)
             return f"Байты: {decrypted_bytes}"
     
-    def encrypt_ecb_to_hex(self, plaintext: str) -> str:
-        """Шифрует текст и возвращает hex-строку"""
-        plaintext_bytes = plaintext.encode('utf-8')
-        encrypted_bytes = self.encrypt_ecb(plaintext_bytes)
-        return encrypted_bytes.hex()
